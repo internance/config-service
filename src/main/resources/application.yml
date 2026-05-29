@@ -13,6 +13,9 @@ spring:
           username: ${GITHUB_USERNAME}
           password: ${GITHUB_TOKEN}
 
+encrypt:
+  key: ${ENCRYPT_KEY}
+  
 eureka:
   client:
     service-url:
