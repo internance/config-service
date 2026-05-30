@@ -5,6 +5,12 @@ eureka:
   instance:
     prefer-ip-address: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
+
 logging:
   level:
     org.springframework.cloud.config: INFO

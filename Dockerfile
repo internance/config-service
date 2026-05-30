@@ -25,7 +25,7 @@ COPY --from=build /workspace/build/libs/*.jar app.jar
 
 EXPOSE 8888
 
-ENV SPRING_PROFILES_ACTIVE=docker \
-    JAVA_OPTS=""
+ENV SPRING_PROFILES_ACTIVE=docker
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# JVM flags can be tuned at runtime via JAVA_TOOL_OPTIONS (picked up automatically by the JVM).
+ENTRYPOINT ["java", "-jar", "app.jar"]

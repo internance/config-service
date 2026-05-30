@@ -23,7 +23,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,refresh,env
+        include: health,info
   endpoint:
     health:
       show-details: when_authorized
