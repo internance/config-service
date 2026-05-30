@@ -4,19 +4,26 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/internance/config.git
-          default-label: main
+          uri: ${CONFIG_GIT_URI:https://github.com/internance/config.git}
+          default-label: ${CONFIG_GIT_LABEL:main}
+          search-paths: '{application}'
           username: ${GITHUB_USERNAME}
           password: ${GITHUB_TOKEN}
 
 encrypt:
   key: ${ENCRYPT_KEY}
-  
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh,env
+  endpoint:
+    health:
+      show-details: when_authorized
