@@ -1,0 +1,12 @@
+encrypt:
+  key: ${ENCRYPT_KEY:test-encrypt-key}
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+logging:
+  level:
+    org.springframework.cloud.config: WARN
