@@ -15,6 +15,15 @@ spring:
           search-paths: '{application}'
           username: ${GITHUB_USERNAME}
           password: ${GITHUB_TOKEN}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+config:
+  monitor:
+    topic: ${CONFIG_EVENTS_TOPIC:config-changed}
+    webhook-secret: ${CONFIG_WEBHOOK_SECRET:}
 
 encrypt:
   key: ${ENCRYPT_KEY}
