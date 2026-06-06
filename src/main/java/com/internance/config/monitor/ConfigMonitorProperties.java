@@ -1,6 +1,9 @@
 package com.internance.config.monitor;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Configuration for the config-repo monitor webhook.
@@ -12,10 +15,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *     webhook-secret: ${...}         # optional GitHub webhook HMAC secret; empty disables verification
  * </pre>
  */
+@Validated
 @ConfigurationProperties(prefix = "config.monitor")
 public class ConfigMonitorProperties {
 
     /** Kafka topic the {@code config.changed} events are published to. */
+    @NotBlank
     private String topic = "config-changed";
 
     /**

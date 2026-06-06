@@ -23,7 +23,7 @@ spring:
 config:
   monitor:
     topic: ${CONFIG_EVENTS_TOPIC:config-changed}
-    webhook-secret: ${CONFIG_WEBHOOK_SECRET:}
+    webhook-secret: ${CONFIG_WEBHOOK_SECRET}
 
 encrypt:
   key: ${ENCRYPT_KEY}

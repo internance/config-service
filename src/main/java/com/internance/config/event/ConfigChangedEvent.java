@@ -34,4 +34,17 @@ public record ConfigChangedEvent(
     public String eventType() {
         return EVENT_TYPE;
     }
+    
+    public ConfigChangedEvent {
+        if (application == null || application.isBlank()) {
+            throw new IllegalArgumentException("application must not be null or blank");
+        }
+        if (label == null || label.isBlank()) {
+            throw new IllegalArgumentException("label must not be null or blank");
+        }
+        if (paths == null) {
+            throw new IllegalArgumentException("paths must not be null");
+        }
+        paths = Set.copyOf(paths);
+    }
 }

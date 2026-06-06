@@ -33,7 +33,7 @@ public class ConfigChangePublisher {
     public void publish(String application, String label, Set<String> paths, String commitId) {
         ConfigChangedEvent event = new ConfigChangedEvent(application, label, paths, commitId);
         log.info("Publishing config change: application={} label={} paths={} commit={}",
-                application, label, paths, commitId);
+                application, label, paths.size(), commitId);
         eventPublisher.publish(properties.getTopic(), application, event);
     }
 }

@@ -17,6 +17,7 @@ repositories {
 	mavenCentral()
 	maven {
 		url 'https://jitpack.io'
+		// Need to use Nexus/Artifactory or other repository manager in production to avoid relying on JitPack for our own libraries, but this is fine for now.
 		content {
 			includeGroup 'com.github.internance'
 			includeGroup 'com.github.f4b6a3'
