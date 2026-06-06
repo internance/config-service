@@ -2,11 +2,10 @@ package com.internance.config.monitor;
 
 import com.internance.common.kafka.event.EventPublisher;
 import com.internance.config.event.ConfigChangedEvent;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 /**
  * Publishes {@link ConfigChangedEvent}s to Kafka through common-lib's
@@ -32,8 +31,12 @@ public class ConfigChangePublisher {
      */
     public void publish(String application, String label, Set<String> paths, String commitId) {
         ConfigChangedEvent event = new ConfigChangedEvent(application, label, paths, commitId);
-        log.info("Publishing config change: application={} label={} paths={} commit={}",
-                application, label, paths.size(), commitId);
+        log.info(
+                "Publishing config change: application={} label={} paths={} commit={}",
+                application,
+                label,
+                paths.size(),
+                commitId);
         eventPublisher.publish(properties.getTopic(), application, event);
     }
 }

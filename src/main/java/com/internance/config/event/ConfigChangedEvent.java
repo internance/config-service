@@ -1,7 +1,6 @@
 package com.internance.config.event;
 
 import com.internance.common.kafka.event.DomainEvent;
-
 import java.util.Set;
 
 /**
@@ -20,12 +19,8 @@ import java.util.Set;
  * @param paths       the changed file paths belonging to {@code application}
  * @param commitId    the head commit SHA of the push, or {@code null} if unknown
  */
-public record ConfigChangedEvent(
-        String application,
-        String label,
-        Set<String> paths,
-        String commitId
-) implements DomainEvent {
+public record ConfigChangedEvent(String application, String label, Set<String> paths, String commitId)
+        implements DomainEvent {
 
     /** Stable wire type name, mirrored onto the {@code x-event-type} Kafka header. */
     public static final String EVENT_TYPE = "config.changed";
@@ -34,7 +29,7 @@ public record ConfigChangedEvent(
     public String eventType() {
         return EVENT_TYPE;
     }
-    
+
     public ConfigChangedEvent {
         if (application == null || application.isBlank()) {
             throw new IllegalArgumentException("application must not be null or blank");

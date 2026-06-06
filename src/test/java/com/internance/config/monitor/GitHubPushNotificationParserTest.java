@@ -1,12 +1,11 @@
 package com.internance.config.monitor;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.internance.config.monitor.GitHubPushNotificationParser.ParsedPush;
-import org.junit.jupiter.api.Test;
-
 import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 class GitHubPushNotificationParserTest {
 
@@ -15,7 +14,8 @@ class GitHubPushNotificationParserTest {
 
     @Test
     void groupsChangedConfigFilesByApplication() throws Exception {
-        String payload = """
+        String payload =
+                """
                 {
                   "ref": "refs/heads/main",
                   "after": "abc123",
@@ -44,7 +44,8 @@ class GitHubPushNotificationParserTest {
 
     @Test
     void ignoresRootAndNonConfigFiles() throws Exception {
-        String payload = """
+        String payload =
+                """
                 {
                   "ref": "refs/heads/main",
                   "after": "abc123",

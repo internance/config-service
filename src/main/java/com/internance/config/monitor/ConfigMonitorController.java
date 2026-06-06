@@ -3,6 +3,15 @@ package com.internance.config.monitor;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.internance.config.monitor.GitHubPushNotificationParser.ParsedPush;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.HexFormat;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,16 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.HexFormat;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * Webhook endpoint the config Git repo (GitHub) calls on every push. When config
@@ -51,11 +50,12 @@ public class ConfigMonitorController {
     private final ConfigMonitorProperties properties;
     private final String defaultLabel;
 
-    public ConfigMonitorController(ObjectMapper objectMapper,
-                                   GitHubPushNotificationParser parser,
-                                   ConfigChangePublisher publisher,
-                                   ConfigMonitorProperties properties,
-                                   @Value("${spring.cloud.config.server.git.default-label:main}") String defaultLabel) {
+    public ConfigMonitorController(
+            ObjectMapper objectMapper,
+            GitHubPushNotificationParser parser,
+            ConfigChangePublisher publisher,
+            ConfigMonitorProperties properties,
+            @Value("${spring.cloud.config.server.git.default-label:main}") String defaultLabel) {
         this.objectMapper = objectMapper;
         this.parser = parser;
         this.publisher = publisher;
@@ -97,12 +97,10 @@ public class ConfigMonitorController {
         }
 
         Set<String> applications = push.pathsByApplication().keySet();
-        push.pathsByApplication().forEach((application, paths) ->
-                publisher.publish(application, push.label(), paths, push.commitId()));
+        push.pathsByApplication()
+                .forEach((application, paths) -> publisher.publish(application, push.label(), paths, push.commitId()));
 
-        return ResponseEntity.ok(Map.of(
-                "status", "published",
-                "applications", applications));
+        return ResponseEntity.ok(Map.of("status", "published", "applications", applications));
     }
 
     private ResponseEntity<Map<String, Object>> ignored(String reason) {
@@ -125,8 +123,7 @@ public class ConfigMonitorController {
         String expected = SIGNATURE_PREFIX + hmacSha256(secret, body);
         // Constant-time comparison to avoid leaking the signature via timing.
         boolean matches = MessageDigest.isEqual(
-                expected.getBytes(StandardCharsets.UTF_8),
-                signature.getBytes(StandardCharsets.UTF_8));
+                expected.getBytes(StandardCharsets.UTF_8), signature.getBytes(StandardCharsets.UTF_8));
         if (!matches) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Signature mismatch");
         }
