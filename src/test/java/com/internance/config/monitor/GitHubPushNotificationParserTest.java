@@ -38,6 +38,8 @@ class GitHubPushNotificationParserTest {
         assertThat(push.pathsByApplication()).containsOnlyKeys("auth-service", "gateway-service");
         assertThat(push.pathsByApplication().get("auth-service"))
                 .containsExactlyInAnyOrder("auth-service/auth-service-prod.yml", "auth-service/auth-service.yml");
+        assertThat(push.pathsByApplication().get("gateway-service"))
+                .containsExactlyInAnyOrder("gateway-service/gateway-service.yml");
     }
 
     @Test
