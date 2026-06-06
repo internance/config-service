@@ -1,13 +1,12 @@
 package com.internance.config.monitor;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.stereotype.Component;
-
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.stereotype.Component;
 
 /**
  * Extracts which config applications changed from a GitHub {@code push} webhook
@@ -28,8 +27,7 @@ public class GitHubPushNotificationParser {
      * Parsed result of a push: the branch/label it landed on, the head commit SHA,
      * and the changed config paths grouped by application.
      */
-    public record ParsedPush(String label, String commitId, Map<String, Set<String>> pathsByApplication) {
-    }
+    public record ParsedPush(String label, String commitId, Map<String, Set<String>> pathsByApplication) {}
 
     /**
      * Parses the push payload. Returns {@link Optional#empty()} when the payload
@@ -68,7 +66,9 @@ public class GitHubPushNotificationParser {
             String value = path.asText(null);
             String application = applicationOf(value);
             if (application != null) {
-                byApplication.computeIfAbsent(application, k -> new LinkedHashSet<>()).add(value);
+                byApplication
+                        .computeIfAbsent(application, k -> new LinkedHashSet<>())
+                        .add(value);
             }
         }
     }

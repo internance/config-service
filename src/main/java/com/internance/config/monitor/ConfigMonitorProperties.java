@@ -1,9 +1,8 @@
 package com.internance.config.monitor;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.NotBlank;
 
 /**
  * Configuration for the config-repo monitor webhook.
