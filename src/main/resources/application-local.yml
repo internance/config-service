@@ -7,7 +7,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,refresh,env
+        include: health,info,refresh,env,prometheus
 
 logging:
   level:
